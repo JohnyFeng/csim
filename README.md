@@ -9,12 +9,12 @@ Currently supported:
 
 - two AI players (RED vs BLUE) playing a single RTS combat game
 - games are played on empty (width x height) maps
-- unit types: tanks, marines (basic stats copied from SC:BW) (see UnitTypes*)
+- unit types: tanks, marines modeled as cicles (basic stats (size, speed, damage, cooldown, attack/vision range) copied from SC:BW; see UnitTypes*)
 - sample world W_Plain supports random start state (tanks,marines in mirrored
   locations)
 - linear any-angle motion to (x,y) at max-speed, stop when running into border
 - no unit-unit collisions
-- attacking units within attack range (Quadtree used to speed this up)
+- attacking units within attack range (hull-to-hull; quadtree used to speed this up)
 - removing units with hp <= 0
 - select policy for each player (string parameter)
 

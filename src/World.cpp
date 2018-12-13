@@ -158,17 +158,20 @@ bool World::isVisible(const Unit &u)
 
 
 /*
-  v  v.attack   u.r u
-  x------------|----x
-  |                 |
-       d(v, u)
 
-  v can attack u iff v.attackRange > d(v, u) - u.radius
+  attacks are hull-to-hull (SC:BW uses bounding box distance)
+  
+  f f.r     f.a     t.r t
+  x-----|----------|----x
+  |                     |
+          d(f, t)
+
+  f can attack t iff d(f, t) < f.radius + f.attackRange + t.radius
             
 */
 bool World::canAttack(const Unit &from, const Unit &to)
 {
-  return from.pos.dist2(to.pos) < square(from.attackRange + to.radius);
+  return from.pos.dist2(to.pos) < square(from.radius + from.attackRange + to.radius);
 }
 
 

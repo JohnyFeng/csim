@@ -39,7 +39,7 @@ void PlayerView::enemiesWithinAttackRange(const Unit &u,
 {
   assert(maxRadius > 0);
   
-  Pix r = u.visionRange + maxRadius * 1.1f; // avoid rounding problems
+  Pix r = u.radius + u.attackRange + maxRadius * 1.1f; // avoid rounding problems
   vector<const Unit*> candidateUnits;
 
   // cout << "enemy query " << u.unitId << endl;
