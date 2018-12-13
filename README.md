@@ -13,11 +13,11 @@ Currently supported:
 - linear any-angle motion to (x,y) at max-speed, stop when running into border
 - no unit-unit collisions (yet)
 - attacking units within attack range (hull-to-hull; quadtree used to speed this up)
-- remove units with hp <= 0
-- sample world W_Plain supports random start state (tanks,marines in mirrored
+- removing units with hp <= 0
+- sample world W_Plain creates a random start state (tanks,marines in mirrored
   locations)
 - sample player P_IndCtrl moves units randomly and attacks opponent units
-  using simple target policies attack_none, attack_closest, attack_weakest, attack_most_dangerous
+  using simple targeting policies: attack_none, attack_closest, attack_weakest, attack_most_dangerous
 
 ---
 
@@ -29,8 +29,8 @@ Speed:
   this map corresponds to a 512x256 tile SC:BW map which is huge)
 - all units move towards random locations on the map border
 - AI players are running target selection code (but don't actually fire)
-- 2 AI players + simulation: 100 fps on single core (i7-3630QM CPU @ 2.40GHz)
-- 2 AI players + simulation + gfx: 30 fps
+- 2 AI players + simulation: 113 fps on single core (i5-7200U CPU @ 2.50GHz)
+- 2 AI players + simulation + gfx: 37 fps (Intel HD 620)
 
 ---
 
