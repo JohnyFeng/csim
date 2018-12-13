@@ -6,7 +6,7 @@
 
   Licensed under GPLv3
 
-  see doc/README.txt for instructions
+  see ../README.md for instructions
   
  */
 
