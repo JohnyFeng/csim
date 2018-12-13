@@ -20,10 +20,10 @@ public:
 
   const std::vector<Unit> &getUnits() const { return units; }
 
-  fp_t getHeight() const { return height; }
-  fp_t getWidth() const { return width; }
+  Pix getHeight() const { return height; }
+  Pix getWidth() const { return width; }
   
-  fp_t getMaxRadius() const { return maxRadius; }
+  Pix getMaxRadius() const { return maxRadius; }
 
   void addAction(const Unit &actor, const Action &action)
   {
@@ -36,7 +36,7 @@ public:
 
   void enemiesWithinAttackRange(const Unit &u,
                                 const Quadtree<Unit> &qtOpp,
-                                fp_t maxRadius,
+                                Pix maxRadius,
                                 std::vector<const Unit *> &attackableUnits) const;
 
   void closestTargetIndexes(const Unit &u,
@@ -54,17 +54,17 @@ private:
 
   // todo: race? upgrades? ...
 
-  fp_t width, height;
+  Pix width, height;
   bool fogOfWar;
-  fp_t qtEps;
+  Pix qtEps;
   int playerId;
   std::vector<Unit> units;
-  fp_t maxRadius; // of all units (for quadtree queries)
+  Pix maxRadius; // of all units (for quadtree queries)
   std::map<int, Action> actions; // unit id -> action
 
   // called by world
   
-  void setup(int playerId_, fp_t width_, fp_t height_, bool fogOfWar_, fp_t qtEps_)
+  void setup(int playerId_, Pix width_, Pix height_, bool fogOfWar_, Pix qtEps_)
   {
     playerId = playerId_;
     width = width_;

@@ -8,9 +8,9 @@ using namespace std;
 
 // todo: use quadtrees
 
-void World::setup(fp_t width_, fp_t height_, bool fogOfWar_, int seed,
+void World::setup(Pix width_, Pix height_, bool fogOfWar_, int seed,
                   Player *p0, Player *p1,
-                  fp_t qtEps_,
+                  Pix qtEps_,
                   const std::string &params_)
 {
   width = width_;
@@ -46,17 +46,17 @@ int World::rndInt(int n, RNG &rng) const
 }
 
 // double [0,1)
-fp_t World::rnd01(RNG &rng) const
+Pix World::rnd01(RNG &rng) const
 {
   std::uniform_real_distribution<double> dist(0,1); // range [0,1)
   double r = dist(rng);
   assert(r >= 0 && r < 1);
-  return (fp_t)r;
+  return (Pix)r;
 }
 
-Vec2 World::rndPos(fp_t radius, RNG &rng) const
+Vec2 World::rndPos(Pix radius, RNG &rng) const
 {
-  fp_t slack = radius * 1.1f;
+  Pix slack = radius * 1.1f;
 
   Vec2 p((width  - 2*slack) * rnd01(rng) + slack,
          (height - 2*slack) * rnd01(rng) + slack);
@@ -67,11 +67,11 @@ Vec2 World::rndPos(fp_t radius, RNG &rng) const
   return p;
 }
 
-Vec2 World::rndEdgePos(fp_t radius, const Vec2 &now, RNG &rng) const
+Vec2 World::rndEdgePos(Pix radius, const Vec2 &now, RNG &rng) const
 {
-  fp_t slack = radius * 1.05f;
-  fp_t xLow = width  * 0.05f, xHigh = width  * 0.95f;
-  fp_t yLow = height * 0.05f, yHigh = height * 0.95f;
+  Pix slack = radius * 1.05f;
+  Pix xLow = width  * 0.05f, xHigh = width  * 0.95f;
+  Pix yLow = height * 0.05f, yHigh = height * 0.95f;
   Vec2 p;
 
   if (rnd01() < 0.5f) {
@@ -322,8 +322,8 @@ void World::moveUnit(Unit &u)
 
   DPRINT("world: moving unit " << u.unitId);
   
-  fp_t dx = u.delta.x;
-  fp_t dy = u.delta.y;
+  Pix dx = u.delta.x;
+  Pix dy = u.delta.y;
 
   if (u.moveCount == 1) {
     // last step
@@ -333,9 +333,9 @@ void World::moveUnit(Unit &u)
     DPRINT("world: unit " << u.unitId << " about to stop");
   }
   
-  fp_t t = 1;
-  fp_t newX = u.pos.x + dx;
-  fp_t newY = u.pos.y + dy;
+  Pix t = 1;
+  Pix newX = u.pos.x + dx;
+  Pix newY = u.pos.y + dy;
   
   //bool collision[4] = { false, false, false, false };
 

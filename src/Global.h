@@ -31,21 +31,21 @@ static_assert(sizeof(sint4) == 4, "size problem");
 static_assert(sizeof(sint8) == 8, "size problem");
 
 using RNG = std::mt19937;
-using fp_t = float4; // for world geometry
+using Pix = float4; // for world geometry ("pixel")
 
 template <typename T>
 constexpr T square(T x) { return x*x; }
 
 struct Vec2
 {
-  fp_t x, y;
+  Pix x, y;
 
-  Vec2(fp_t x_ = 0, fp_t y_ = 0)
+  Vec2(Pix x_ = 0, Pix y_ = 0)
     : x(x_), y(y_)
   {
   }
   
-  constexpr fp_t dist2(const Vec2 &v) const {
+  constexpr Pix dist2(const Vec2 &v) const {
     return square(x-v.x)+square(y-v.y);
   }
 
@@ -53,7 +53,7 @@ struct Vec2
     return Vec2{x-v.x, y-v.y};
   }
 
-  void scale(fp_t s) {
+  void scale(Pix s) {
     x *= s;
     y *= s;
   }

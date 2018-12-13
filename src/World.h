@@ -1,5 +1,7 @@
 #pragma once
 
+// defines the "world", which includes everything needed to run a game
+
 #include <vector>
 #include <map>
 #include "PlayerView.h"
@@ -35,9 +37,9 @@ public:
 
   // setup world
   // qtEps: cell split dimension of quadtree (0: don't use qt)
-  virtual void setup(fp_t width_, fp_t height_, bool fogOfWar_, int seed_,
+  virtual void setup(Pix width_, Pix height_, bool fogOfWar_, int seed_,
                      Player *p0, Player *p1,
-                     fp_t qtEps,
+                     Pix qtEps,
                      const std::string &params);
   
   virtual bool gameFinished() const = 0;
@@ -71,14 +73,14 @@ public:
   int rndInt(int n) const { return rndInt(n, rng); }
 
   // random double [0,1)
-  fp_t rnd01() const { return rnd01(rng); }
+  Pix rnd01() const { return rnd01(rng); }
 
   // return a random position at which a circle of that radius fits
-  Vec2 rndPos(fp_t radius = 0.0f) const { return rndPos(radius, rng); }
+  Vec2 rndPos(Pix radius = 0.0f) const { return rndPos(radius, rng); }
 
   // return a random position at which a circle of that radius fits along an edge
   // avoiding edge close to now
-  Vec2 rndEdgePos(fp_t radius, const Vec2 &now) const { return rndEdgePos(radius, now, rng); }
+  Vec2 rndEdgePos(Pix radius, const Vec2 &now) const { return rndEdgePos(radius, now, rng); }
 
   // similar, but using external rng
   
@@ -86,19 +88,19 @@ public:
   int rndInt(int n, RNG &rng) const;
 
   // double [0,1)
-  fp_t rnd01(RNG &rnd) const;
+  Pix rnd01(RNG &rnd) const;
 
   // random location for circle that fits
-  Vec2 rndPos(fp_t radius, RNG &rng) const;
+  Vec2 rndPos(Pix radius, RNG &rng) const;
 
   // return a random position at which a circle of that radius fits along an edge
   // avoiding edge close to now
-  Vec2 rndEdgePos(fp_t radius, const Vec2 &now, RNG &rng) const;
+  Vec2 rndEdgePos(Pix radius, const Vec2 &now, RNG &rng) const;
 
   int getFrameCount() const { return frameCounter; }
   
-  fp_t getWidth() const { return width; }
-  fp_t getHeight() const { return height; }  
+  Pix getWidth() const { return width; }
+  Pix getHeight() const { return height; }  
 
   using UnitMap = std::map<int, Unit>;
   
@@ -110,9 +112,9 @@ public:
   
 private:
   
-  fp_t width, height;
+  Pix width, height;
   bool fogOfWar;
-  fp_t qtEps;
+  Pix qtEps;
   int frameCounter;
   std::vector<Player*> players;
   std::string params;

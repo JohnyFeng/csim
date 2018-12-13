@@ -1,3 +1,7 @@
+#pragma once
+
+// some functions that create units of fixed types
+
 #include "Unit.h"
 
 enum UnitTypes { MARINE = 0, TANK };

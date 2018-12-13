@@ -1,5 +1,8 @@
 #pragma once
 
+// struct that represents a unit
+// currently supported: vision, attacking, moving
+
 #include <set>
 #include "Global.h"
 #include <iostream>
@@ -9,24 +12,21 @@ struct Unit
   // id increases with every constructor call
   // careful: only create new units via construction
   
-  static int id; 
+  static int id;
   
-  Unit(int owner_ = -1, const Vec2 &pos_ = { 0, 0 })
-    : owner(owner_), pos(pos_)
+  Unit(int owner_ = -1, int type_ = -1, const Vec2 &pos_ = { 0, 0 })
+    : owner(owner_), type(type_), pos(pos_)
   {
     radius = 0;
     maxSpeed = 0;
     visionRange = 0;
     attackRange = 0;
     maxHp = 0;
-    attack = 0;
+    damage = 0;
     cooldown = 0;
     onlyAttackWhenStopped = true;
 
     unitId = ++id;
-    type = -1;
-
-    alive = true;
 
     delta = {0,0};
     targetPos = {0,0};
@@ -39,37 +39,41 @@ struct Unit
   }
 
   // fixed unit type properties
-  fp_t radius;       // pixels
-  fp_t maxSpeed;     // pixels/frame
-  fp_t visionRange;  // pixels
-  fp_t attackRange;  // pixels
+  Pix radius;       // pixels
+  Pix maxSpeed;     // pixels/frame
+  Pix visionRange;  // pixels
+  Pix attackRange;  // pixels
   int  maxHp;
-  int  attack;
+  int  damage;       // subtracted from hp of targeted unit
   int  cooldown;     // frames to wait before attacking next (0 = constant firing)
   bool onlyAttackWhenStopped;
   
   // static
-  int unitId;
-  int type;
   int owner;
+  int type;
+  int unitId;
 
   // dynamic
-  bool alive;
-  Vec2 pos;
 
-  Vec2 delta;      // position change per tick
+  // motion related
+
+  Vec2 pos;
+  Vec2 delta;     // position change per tick
   Vec2 targetPos;
   int  moveCount; // = 0 <=> stop
 
+  // attack related
+  
   int hp;
   int cooldownCount;  // <= 0 <=> can attack
 
-  fp_t getX() const { return pos.x; }
-  fp_t getY() const { return pos.y; }
+  // helpers
+  
+  Pix getX() const { return pos.x; }
+  Pix getY() const { return pos.y; }
   
   void startValues()
   {
-    alive = true;
     hp = maxHp;
     cooldownCount = 0;
     stopMotion();
@@ -84,19 +88,21 @@ struct Unit
   {
     return moveCount > 0;
   }
+
+  // set unit in motion towards target position whereTo
   
   void startMotion(const Vec2 &whereTo)
   {
     DPRINT("world: start motion " << unitId);
     
-    fp_t speed = maxSpeed; // future: pass on as parameter?
-    fp_t d = static_cast<fp_t>(sqrt(whereTo.dist2(pos)));
-    fp_t time = d / speed;
+    Pix speed = maxSpeed; // future: pass on as parameter?
+    Pix d = static_cast<Pix>(sqrt(whereTo.dist2(pos)));
+    Pix time = d / speed;
 
     if (time >= 100'000) {
       ERR("motion too slow");
     }
-    
+
     moveCount = static_cast<int>(ceil(time));
 
     if (!moveCount) {
@@ -107,19 +113,23 @@ struct Unit
     
     targetPos = whereTo;
     delta = whereTo.sub(pos);
-    delta.scale(static_cast<fp_t>(1.0/time));
+    delta.scale(static_cast<Pix>(1.0/time));
   }
 
+  // @return true iff unit can attack now
+  
   bool readyForAttack() const
   {
     return cooldownCount <= 0;
   }
 
   // @return true if uTo is dead
+  // cooldownDelta: random delta
+  
   bool executeAttack(Unit &uTo, int cooldownDelta)
   {
     assert(readyForAttack());
-    uTo.hp -= attack;
+    uTo.hp -= damage;
     // randomize cooldown -1..+2
     cooldownCount = (cooldown+1)+cooldownDelta; // note: +1 because first tick happens at end of this frame
     cooldownCount = std::max(cooldownCount, 1);
@@ -145,12 +155,16 @@ struct Unit
   
 };
 
+// print major Unit attributes
+
 inline std::ostream &operator<<(std::ostream &os, const Unit &u)
 {
   os << "id " << u.unitId << " x " << u.pos.x << " y " << u.pos.y << " r " << u.radius
      << " v " << u.visionRange << " hp " << u.hp;
   return os;
 }
+
+// how to compare units
 
 inline bool operator<(const Unit &u, const Unit &v)
 {

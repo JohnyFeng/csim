@@ -1,5 +1,8 @@
 #pragma once
 
+// world interface; defining some callback functions
+// (used by Gfx, for instance)
+
 struct Unit;
 
 struct WorldListener

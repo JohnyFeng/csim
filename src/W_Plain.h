@@ -8,9 +8,9 @@ public:
 
   W_Plain() { }
 
-  void setup(fp_t width, fp_t height, bool fogOfWar, int seed,
+  void setup(Pix width, Pix height, bool fogOfWar, int seed,
              Player *p0, Player *p1,
-             fp_t qtEps,
+             Pix qtEps,
              const std::string &params) override;
 
   bool gameFinished() const override;

@@ -34,12 +34,12 @@ void PlayerView::enemiesWithinAttackRange(const Unit &u,
 
 void PlayerView::enemiesWithinAttackRange(const Unit &u,
                                           const Quadtree<Unit> &qtOpp,
-                                          fp_t maxRadius,
+                                          Pix maxRadius,
                                           std::vector<const Unit *> &attackableUnits) const
 {
   assert(maxRadius > 0);
   
-  fp_t r = u.visionRange + maxRadius * 1.1f; // avoid rounding problems
+  Pix r = u.visionRange + maxRadius * 1.1f; // avoid rounding problems
   vector<const Unit*> candidateUnits;
 
   // cout << "enemy query " << u.unitId << endl;
@@ -151,7 +151,7 @@ void PlayerView::mostDangerousTargetIndexes(const Unit &/*u*/,
 
     assert(ptu->hp > 0);
     // cooldown 0: can fire constantly => need +1 for DPF computation
-    double danger = (double) ptu->attack / (double) (ptu->cooldown+1) / ptu->hp;
+    double danger = (double) ptu->damage / (double) (ptu->cooldown+1) / ptu->hp;
 
     if (danger < max) {
       continue;

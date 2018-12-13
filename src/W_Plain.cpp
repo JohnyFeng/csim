@@ -4,9 +4,9 @@
 
 using namespace std;
 
-void W_Plain::setup(fp_t width, fp_t height, bool fogOfWar, int seed,
+void W_Plain::setup(Pix width, Pix height, bool fogOfWar, int seed,
                     Player *p0, Player *p1,
-                    fp_t qtEps,
+                    Pix qtEps,
                     const std::string &params)
 {
   World::setup(width, height, fogOfWar, seed, p0, p1, qtEps, params);
@@ -26,10 +26,10 @@ void W_Plain::setup(fp_t width, fp_t height, bool fogOfWar, int seed,
   // get unit sizes - a bit awkward
 
   Unit m = makeMarine(RED);
-  fp_t mr = m.radius;
+  Pix mr = m.radius;
 
   m = makeTank(RED);
-  fp_t tr = m.radius;
+  Pix tr = m.radius;
 
   // create marines
   

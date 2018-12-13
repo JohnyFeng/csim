@@ -120,7 +120,7 @@ static World *newWorld(const string &worldType)
 
 static Player *newPlayer(const string &playerType, World *world,
                          int index, const string &playerName,
-                         fp_t qtEps,
+                         Pix qtEps,
                          const string &params, int seed)
 {
   if (playerType == "IndCtrl") {
@@ -158,10 +158,10 @@ int main(int argc, char *argv[])
     ("help", "produce help message")
     ("world", po::value<string>()->default_value("Plain"), "set world type")
     ("wpar", po::value<string>()->default_value("100 100"), "set world parameters")
-    ("width,w", po::value<fp_t>()->default_value(800), "set world width")
-    ("height,h", po::value<fp_t>()->default_value(800), "set world height")
+    ("width,w", po::value<Pix>()->default_value(800), "set world width")
+    ("height,h", po::value<Pix>()->default_value(800), "set world height")
     ("fow", po::bool_switch()->default_value(false), "swtich fog of war on")
-    ("qteps", po::value<fp_t>()->default_value(800), "set quadtree split epsilon (0: no qt, 800 good for large W_Plain)")
+    ("qteps", po::value<Pix>()->default_value(800), "set quadtree split epsilon (0: no qt, 800 good for large W_Plain)")
     ("delay,d", po::value<int>()->default_value(50), "set frame delay (ms)")
     ("seed,s", po::value<int>()->default_value(0), "set rng seed (0:time)")
     ("rplayer", po::value<string>()->default_value("IndCtrl"), "set red player")
@@ -183,11 +183,11 @@ int main(int argc, char *argv[])
   string worldType = vm["world"].as<string>();
   string wPar = vm["wpar"].as<string>();
   
-  fp_t width = vm["width"].as<fp_t>();
-  fp_t height = vm["height"].as<fp_t>();
+  Pix width = vm["width"].as<Pix>();
+  Pix height = vm["height"].as<Pix>();
 
   bool fow = vm["fow"].as<bool>();
-  fp_t qtEps = vm["qteps"].as<fp_t>();
+  Pix qtEps = vm["qteps"].as<Pix>();
   
   delay = vm["delay"].as<int>(); // frame delay in ms
   int seed = vm["seed"].as<int>();   // for rng, 0: use time

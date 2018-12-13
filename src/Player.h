@@ -19,7 +19,7 @@ public:
   }
   
   void setup(World *world_, int playerId_, const std::string &name_,
-             fp_t qtEps_,
+             Pix qtEps_,
              const std::string &policy_, int seed)
   {
     world = world_;
@@ -36,13 +36,13 @@ public:
   std::string getName() const { return name; }
   std::string getPolicy() const { return policy; }
 
-  fp_t getQtEps() const { return qtEps; }
+  Pix getQtEps() const { return qtEps; }
   
   PlayerView &self();
   const PlayerView &opponent() const;
 
-  fp_t getWidth() const { return world->getWidth(); }
-  fp_t getHeight() const { return world->getHeight(); }
+  Pix getWidth() const { return world->getWidth(); }
+  Pix getHeight() const { return world->getHeight(); }
 
   virtual void onFrame(int frameCount) = 0;
   virtual void onGameEnd() = 0;
@@ -55,13 +55,13 @@ public:
   int rndInt(int n) const { return world->rndInt(n, rng); }
 
   // double [0,1)
-  fp_t rnd01() const { return world->rnd01(rng); }
+  Pix rnd01() const { return world->rnd01(rng); }
 
   // random location for circle that fits
-  Vec2 rndPos(fp_t radius = 0.0f) const { return world->rndPos(radius, rng); }
+  Vec2 rndPos(Pix radius = 0.0f) const { return world->rndPos(radius, rng); }
   
   // random location for circle that fits along edge
-  Vec2 rndEdgePos(fp_t radius, const Vec2 &now) const
+  Vec2 rndEdgePos(Pix radius, const Vec2 &now) const
   {
     return world->rndEdgePos(radius, now, rng);
   }
@@ -71,7 +71,7 @@ private:
   World *world;
   int playerId;
   std::string name;
-  fp_t qtEps;
+  Pix qtEps;
   std::string policy;
   mutable RNG rng;
 };
